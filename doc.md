@@ -57,7 +57,9 @@
 - `lastBlock`:	Block cuối cùng depositor tương tác với bond.
 - `pricePaid`:	Giá đã thanh toán bằng DAI khi mua bond.
 #### ThornERC20
+- 
 #### TokenPrice
+- 
 #### Treasury
 #### PrivateSaleRoundOne
 #### PrivateSaleRoundThree
