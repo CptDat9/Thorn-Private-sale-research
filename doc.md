@@ -19,17 +19,27 @@
 - Hỗ trợ quản lí LP Token (lưu thông tin, xác định cặp token để tính giá).
 - Thêm/xóa token khỏi danh sách có thể lấy giá từ Oracle.
 #### Treasury
-- Nắm giữ và quản lí tài sản của dự án.
+- Nắm giữ và quản lí tài sản của dự án:
+- Gửi tài sản vào Treasury ( deposit ).
+- Rút tài sản (manage)
+- Mint phần thưởng
+- Kiểm toán dự trữ, cập nhật tổng số dư dự trữ (auditReserves).
+- Quản lí quyền 
 #### PrivateSaleRoundOne
-- Quản lí vòng Presale
+- Quản lí vòng Presale, các chức năng bao gồm:
+- Mua token THORN bằng USDT theo mức giá ưu đãi, có vesting.
+- Quản lý whitelist để kiểm soát người mua (có thể bật/tắt).
+- Thiết lập các điều kiện vesting & cliffing (thời gian khóa và giải ngân).
+- Tính toán và theo dõi số lượng THORN đã mua, đã nhận và còn lại của từng người.
+- Rút token bị kẹt và cập nhật các thông số của private sale.
 #### PrivateSaleRoundThree
-- Quản lí vòng Presale
+- Quản lí vòng Presale (tương tự v1)
 #### PrivateSaleRoundFour
-- Quản lí vòng Presale
+- Quản lí vòng Presale (tương tự v1)
 #### Policy
-- Quản trị dự án (kiểm soát người tài khoản nắm quyền quản lí chính sách dự án)
+- Quản lý quyền quản trị, cho phép kiểm tra owner, từ bỏ quyền, đề xuất và chấp nhận quản trị viên mới.
 #### PolicyUpgradeable
-- Proxy của Policy.
+- Proxy của Policy. (nâng cấp mà không mất dữ liệu trước đó).
 ## Thiết kế contract
 ### Các thuộc tính quan trọng
 #### BondDepository
