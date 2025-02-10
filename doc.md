@@ -531,8 +531,173 @@
    - Trả về giá trị tính được.
 2. Nếu không hỗ trợ oracle, trả về giá trị `0`.
 
+### Treasury 
+### Use Cases for Treasury Contract
 
-#### PrivateSaleRoundOne
+
+
+#### _deposit
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `token`   | Địa chỉ của token được nạp vào Treasury |
+| `amount`  | Số lượng token được nạp |
+
+**Các công việc thực hiện:**
+- Kiểm tra xem token có được hỗ trợ không.
+- Chuyển `amount` token từ người gửi vào Treasury.
+  ```solidity
+  IERC20(token).transferFrom(msg.sender, address(this), amount);
+  ```
+- Cập nhật số dư của Treasury:
+  ```solidity
+  balances[token] += amount;
+  ```
+
+
+
+#### _withdraw
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `token`   | Địa chỉ của token được rút |
+| `amount`  | Số lượng token được rút |
+| `to`      | Địa chỉ nhận token rút ra |
+
+**Các công việc thực hiện:**
+- Kiểm tra xem Treasury có đủ số dư không:
+  ```solidity
+  require(balances[token] >= amount, "Insufficient balance");
+  ```
+- Giảm số dư của Treasury:
+  ```solidity
+  balances[token] -= amount;
+  ```
+- Chuyển token đến địa chỉ `to`:
+  ```solidity
+  IERC20(token).transfer(to, amount);
+  ```
+
+
+
+#### _allocateFunds
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `proposalId` | ID của proposal được cấp vốn |
+| `token`      | Địa chỉ của token được sử dụng cấp vốn |
+| `amount`     | Số lượng token được phân bổ |
+
+**Các công việc thực hiện:**
+- Kiểm tra trạng thái của proposal:
+  ```solidity
+  require(proposals[proposalId].status == ProposalStatus.Approved, "Proposal not approved");
+  ```
+- Giảm số dư Treasury:
+  ```solidity
+  balances[token] -= amount;
+  ```
+- Cập nhật thông tin tài trợ cho proposal:
+  ```solidity
+  proposals[proposalId].allocatedFunds[token] += amount;
+  ```
+
+
+
+#### _checkBalance
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `token`   | Địa chỉ của token cần kiểm tra số dư |
+
+**Các công việc thực hiện:**
+- Trả về số dư hiện tại của Treasury:
+  ```solidity
+  return balances[token];
+  ```
+
+
+
+#### _transferOwnership
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `newOwner` | Địa chỉ của chủ sở hữu mới |
+
+**Các công việc thực hiện:**
+- Xác minh quyền của người gọi (chỉ chủ sở hữu hiện tại mới được phép gọi hàm):
+  ```solidity
+  require(msg.sender == owner, "Not authorized");
+  ```
+- Cập nhật chủ sở hữu mới:
+  ```solidity
+  owner = newOwner;
+  ```
+- Phát sự kiện `OwnershipTransferred`:
+  ```solidity
+  emit OwnershipTransferred(msg.sender, newOwner);
+  ```
+
+
+
+#### _getProposalStatus
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `proposalId` | ID của proposal cần kiểm tra trạng thái |
+
+**Các công việc thực hiện:**
+- Lấy trạng thái của proposal từ mapping:
+  ```solidity
+  return proposals[proposalId].status;
+  ```
+
+
+
+#### _approveProposal
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `proposalId` | ID của proposal cần phê duyệt |
+
+**Các công việc thực hiện:**
+- Xác minh quyền của người gọi (chỉ admin mới được phép gọi hàm):
+  ```solidity
+  require(msg.sender == admin, "Not authorized");
+  ```
+- Thay đổi trạng thái của proposal:
+  ```solidity
+  proposals[proposalId].status = ProposalStatus.Approved;
+  ```
+- Phát sự kiện `ProposalApproved`:
+  ```solidity
+  emit ProposalApproved(proposalId);
+  ```
+
+
+
+#### _rejectProposal
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `proposalId` | ID của proposal cần từ chối |
+
+**Các công việc thực hiện:**
+- Xác minh quyền của người gọi (chỉ admin mới được phép gọi hàm):
+  ```solidity
+  require(msg.sender == admin, "Not authorized");
+  ```
+- Thay đổi trạng thái của proposal:
+  ```solidity
+  proposals[proposalId].status = ProposalStatus.Rejected;
+  ```
+- Phát sự kiện `ProposalRejected`:
+  ```solidity
+  emit ProposalRejected(proposalId);
+  ```
+
+
+### PrivateSaleRoundOne
 ### Công thức sử dụng
 ### Các hàm quan trọng và ý nghĩa
 | Function Name | Function Signature | Meaning | 
