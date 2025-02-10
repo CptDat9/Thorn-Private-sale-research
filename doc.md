@@ -173,7 +173,12 @@
 #### PrivateSaleRoundFour
 ##### Tương tự Round 1
 #### Policy
-#### PolicyUpgradeable
+
+| Tên biến                   | Kiểu dữ liệu  | Mô tả |
+|----------------------------|--------------|------|
+| `_policy`                  | `address`    | Địa chỉ của policy hiện tại (quyền sở hữu contract). |
+| `_newPolicy`               | `address`    | Địa chỉ policy mới đang chờ xác nhận. |
+
 ### Các use-case quan trọng
 #### BondDepository
 ### Công thức sử dụng
