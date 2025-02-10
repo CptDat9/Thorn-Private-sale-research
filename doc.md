@@ -15,7 +15,9 @@
 #### ThornERC20
 - Contract token ERC20 của Thorn.
 #### TokenPrice
-- Lấy dữ liệu giá Token.
+- Xác định giá token (lấy giá từ Oracle,vd: Aave Oracle; Tính giá từ cặp LP token nếu không có Oracle hỗ trợ, đặt giá cố định cho THORN token (0.02 USDT)).
+- Hỗ trợ quản lí LP Token (lưu thông tin, xác định cặp token để tính giá).
+- Thêm/xóa token khỏi danh sách có thể lấy giá từ Oracle.
 #### Treasury
 - Nắm giữ và quản lí tài sản của dự án.
 #### PrivateSaleRoundOne
