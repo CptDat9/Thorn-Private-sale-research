@@ -13,7 +13,7 @@
 - `Pi` giá tại thời điểm i (tính theo $)
 -  Suy ra, Giá bond `Pa` tại thời điểm a tỉ lệ thuận với tỉ số giữa thời gian còn lại `Ta` và số token còn lại tại thời điểm a  là `Ca`.
 #### ThornERC20
-- Contract token ERc20 của Thorn.
+- Contract token ERC20 của Thorn.
 #### TokenPrice
 - Quản lí giá token theo thời gian hoặc sự kiện.
 #### Treasury
