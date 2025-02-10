@@ -183,39 +183,238 @@
 #### BondDepository
 ### Công thức sử dụng
 ### Các hàm quan trọng và ý nghĩa
-| Function Name | Function Signature | Meanning |
-| ------------- | ------------------ | --------------------- |
-| initialize  | initialize(address,address) |  |
-| pause  | pause() |  |
-| unpauseContract  | unpauseContract() |  |
-| initializeBondTerms  | initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256) |  | 
-| setBondTerms  | setBondTerms(uint8,uint256) |  |
-| setStaking  | setStaking(address,bool) |  |
-| setThornAddress  | setThornAddress(address) |  |
-| setPrincipleAddress  | setPrincipleAddress(address) |  |
-| setWhitelist  | setWhitelist(address[]) |  |
-| toggleWhitelisted  | toggleWhitelisted(address) |  |
-| withdrawStuckAmount  | withdrawStuckAmount(uint256,address) |  |
-| deposit  | deposit(uint256,uint256,address) |  |
-| redeem  | redeem(address) |  |
-| getAssetPrice  | getAssetPrice(address) |  |
-| getPayout  | getPayout(uint256) |  |
-| getPayoutRate  | getPayoutRate() |  |
-| bondPrice  | bondPrice() |  |
-| bondPriceInUSD  | bondPriceInUSD() |  |
-| percentToVestFor  | percentToVestFor(address) |  |
-| getBondInfo  | getBondInfo(address) |   |
-| getWhitelist  | getWhitelist() |  |
-| getWhitelistStatus  | getWhitelistStatus(address) |  |
-| getThornPrice  | getThornPrice() |  |
-| getWithdrawableAmount  | getWithdrawableAmount(address) |  |
-#### ThornERC20
-| Function Name |  Function Signature | Meaning |
-| ------------- |  ------------------ | ------------------ |
-| mint | mint(address,uint256) | |
-| burn | burn(uint256) | |
-| burnFrom | burnFrom(address,uint256) | |
-| _burnFrom | _burnFrom(address,uint256) | |
+
+#### initialize
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _admin | Địa chỉ admin của hợp đồng |
+| _oracle | Địa chỉ oracle cung cấp dữ liệu |
+
+**Output:**
+- Khởi tạo hợp đồng với admin và oracle.
+
+**Các công việc thực hiện:**
+1. Đặt admin và oracle.
+2. Thiết lập trạng thái ban đầu của hợp đồng.
+
+
+
+#### pause
+**Input:**
+- Không có.
+
+**Output:**
+- Tạm dừng hợp đồng.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền hạn của người gọi.
+2. Đặt trạng thái hợp đồng thành "tạm dừng".
+
+
+
+#### unpauseContract
+**Input:**
+- Không có.
+
+**Output:**
+- Kích hoạt lại hợp đồng.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền hạn của người gọi.
+2. Đặt trạng thái hợp đồng thành "hoạt động".
+
+
+
+#### initializeBondTerms
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _term1 | Giá trị điều khoản 1 |
+| _term2 | Giá trị điều khoản 2 |
+| _term3 | Giá trị điều khoản 3 |
+| _term4 | Giá trị điều khoản 4 |
+| _term5 | Giá trị điều khoản 5 |
+| _term6 | Giá trị điều khoản 6 |
+| _term7 | Giá trị điều khoản 7 |
+
+**Output:**
+- Thiết lập các điều khoản trái phiếu ban đầu.
+
+**Các công việc thực hiện:**
+1. Lưu trữ các điều khoản trái phiếu vào biến trạng thái.
+2. Kiểm tra và xác thực đầu vào.
+
+
+
+#### setBondTerms
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _index | Chỉ số điều khoản cần thay đổi |
+| _value | Giá trị mới của điều khoản |
+
+**Output:**
+- Cập nhật điều khoản trái phiếu.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền admin.
+2. Cập nhật giá trị điều khoản tương ứng.
+
+
+
+#### setStaking
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _staking | Địa chỉ hợp đồng staking |
+| _status | Trạng thái bật/tắt |
+
+**Output:**
+- Cập nhật địa chỉ staking.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền admin.
+2. Cập nhật trạng thái staking.
+
+
+
+#### setThornAddress
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _thorn | Địa chỉ token THORN |
+
+**Output:**
+- Cập nhật địa chỉ token THORN.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền admin.
+2. Cập nhật địa chỉ token.
+
+
+
+#### setPrincipleAddress
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _principle | Địa chỉ token nguyên tắc |
+
+**Output:**
+- Cập nhật địa chỉ token nguyên tắc.
+
+**Các công việc thực hiện:**
+1. Kiểm tra quyền admin.
+2. Cập nhật địa chỉ token.
+
+
+
+#### deposit
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _amount | Số lượng token gửi |
+| _maxPrice | Giá tối đa chấp nhận |
+| _recipient | Địa chỉ nhận |
+
+**Output:**
+- Gửi token vào hợp đồng.
+
+**Các công việc thực hiện:**
+1. Kiểm tra số dư.
+2. Chuyển token vào hợp đồng.
+
+
+
+#### redeem
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _recipient | Địa chỉ nhận token |
+
+**Output:**
+- Rút token về địa chỉ chỉ định.
+
+**Các công việc thực hiện:**
+1. Kiểm tra điều kiện rút.
+2. Chuyển token về cho người dùng.
+
+
+
+#### getAssetPrice
+**Input:**
+| Parameter | Meaning |
+|----------|----------------------|
+| _asset   | Địa chỉ của token cần lấy giá |
+
+**Output:**
+- Trả về giá của `_asset` tính theo USDT.
+
+**Các công việc thực hiện:**
+1. Nếu `_asset` là `THORN_ADDRESS`, trả về giá trị cố định là **0.02 USDT**.
+2. Nếu `_asset` là `USDT_ADDRESS`, trả về giá trị **1 USDT**.
+3. Nếu `_asset` được hỗ trợ bởi oracle:
+   - Gọi `IAaveOracle(AAVE_ORACLE).getAssetPrice(_asset)`.
+   - Điều chỉnh giá trị theo số thập phân của USDT.
+   - Trả về giá trị tính được.
+4. Nếu `_asset` không được hỗ trợ bởi oracle:
+   - Lấy địa chỉ `lpToken` và `otherHalf` từ `lpTokens[_asset]`.
+   - Lấy số dư `_asset` trong pool LP (`balanceTokenA`).
+   - Lấy số dư `otherHalf` trong pool LP (`balanceTokenB`).
+   - Lấy giá `otherHalf` từ `AAVE_ORACLE`.
+   - Tính giá `_asset` dựa trên tỷ lệ giữa hai token trong pool:
+    ```math
+    price = \frac{balanceTokenB \times priceOtherHalf}{balanceTokenA}
+    ```
+   - Trả về giá trị tính được.
+
+
+
+#### getPayout
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _amount | Số lượng token đầu vào |
+
+**Output:**
+- Trả về số token được nhận khi gửi vào `_amount`.
+
+**Các công việc thực hiện:**
+1. Tính toán payout dựa trên công thức nội bộ.
+2. Trả về giá trị.
+
+
+
+#### getWhitelistStatus
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _user | Địa chỉ người dùng |
+
+**Output:**
+- Trả về trạng thái whitelist của người dùng.
+
+**Các công việc thực hiện:**
+1. Kiểm tra danh sách whitelist.
+2. Trả về kết quả.
+
+
+
+#### getWithdrawableAmount
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| _user | Địa chỉ người dùng |
+
+**Output:**
+- Trả về số lượng có thể rút của người dùng.
+
+**Các công việc thực hiện:**
+1. Kiểm tra số dư khả dụng.
+2. Tính toán lượng có thể rút.
+3. Trả về kết quả.
+
+
 ### TokenPrice
 ##### Công thức sử dụng
 
