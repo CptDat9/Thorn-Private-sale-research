@@ -15,7 +15,7 @@
 #### ThornERC20
 - Contract token ERC20 của Thorn.
 #### TokenPrice
-- Quản lí giá token theo thời gian hoặc sự kiện.
+- Lấy dữ liệu giá Token.
 #### Treasury
 - Nắm giữ và quản lí tài sản của dự án.
 #### PrivateSaleRoundOne
