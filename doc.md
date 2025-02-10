@@ -60,7 +60,7 @@
 #### ThornERC20
 - 
 #### TokenPrice
-- 
+-
 #### Treasury
 #### PrivateSaleRoundOne
 #### PrivateSaleRoundThree
@@ -101,7 +101,15 @@
 | getWithdrawableAmount  | getWithdrawableAmount(address) |  |
 #### ThornERC20
 #### TokenPrice
-### Công thức sử dụng
+##### Công thức sử dụng
+
+| Function Name | Function Signature | Meaning | 
+| ------------- | ---------- | ------------------ | 
+| setAaveOracle | setAaveOracle(address) | |
+| setSupportTokenOraclePrice |  setSupportTokenOraclePrice(address,bool) | |
+| getLpToken |  getLpToken(address) | |
+| setLpTokens |  setLpTokens(address,(address,address)) | |
+| getAssetPrice | getAssetPrice(address) | |
 
 #### Treasury
 #### PrivateSaleRoundOne
