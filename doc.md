@@ -69,11 +69,45 @@
 #### PolicyUpgradeable
 ### Các use-case quan trọng
 #### BondDepository
+### Công thức sử dụng
+### Các hàm quan trọng và ý nghĩa
+| Function Name | Function Signature | Meanning |
+| ------------- | ------------------ | --------------------- |
+| initialize  | initialize(address,address) |  |
+| pause  | pause() |  |
+| unpauseContract  | unpauseContract() |  |
+| initializeBondTerms  | initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256) |  | 
+| setBondTerms  | setBondTerms(uint8,uint256) |  |
+| setStaking  | setStaking(address,bool) |  |
+| setThornAddress  | setThornAddress(address) |  |
+| setPrincipleAddress  | setPrincipleAddress(address) |  |
+| setWhitelist  | setWhitelist(address[]) |  |
+| toggleWhitelisted  | toggleWhitelisted(address) |  |
+| withdrawStuckAmount  | withdrawStuckAmount(uint256,address) |  |
+| deposit  | deposit(uint256,uint256,address) |  |
+| redeem  | redeem(address) |  |
+| getAssetPrice  | getAssetPrice(address) |  |
+| getPayout  | getPayout(uint256) |  |
+| getPayoutRate  | getPayoutRate() |  |
+| bondPrice  | bondPrice() |  |
+| bondPriceInUSD  | bondPriceInUSD() |  |
+| percentToVestFor  | percentToVestFor(address) |  |
+| getBondInfo  | getBondInfo(address) |   |
+| getWhitelist  | getWhitelist() |  |
+| getWhitelistStatus  | getWhitelistStatus(address) |  |
+| getThornPrice  | getThornPrice() |  |
+| getWithdrawableAmount  | getWithdrawableAmount(address) |  |
 #### ThornERC20
 #### TokenPrice
+### Công thức sử dụng
+
 #### Treasury
 #### PrivateSaleRoundOne
+### Công thức sử dụng
+
 #### PrivateSaleRoundThree
+##### Tương tự Round 1
 #### PrivateSaleRoundFour
+##### Tương tự Round 1
 #### Policy
 #### PolicyUpgradeable
