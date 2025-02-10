@@ -118,6 +118,16 @@
 | getAssetPrice | getAssetPrice(address) | |
 
 #### Treasury
+| Function Name  | Function Signature | Meaning |
+| -------------  | ------------------ | ------- |
+| deposit  | deposit(uint256,address,uint256) | |
+| manage  | manage(address,uint256) | |
+| mintRewards  | mintRewards(address,uint256) | |
+| excessReserves | excessReserves() | |
+| auditReserves  | auditReserves() | |
+| valueOf  | valueOf(address,uint256) | |
+| queue  | queue(uint8,address) | |
+| toggle  | toggle(uint8,address,address) | |
 #### PrivateSaleRoundOne
 ### Công thức sử dụng
 ### Các hàm quan trọng và ý nghĩa
