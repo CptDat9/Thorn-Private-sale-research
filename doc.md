@@ -216,28 +216,123 @@
 | burn | burn(uint256) | |
 | burnFrom | burnFrom(address,uint256) | |
 | _burnFrom | _burnFrom(address,uint256) | |
-#### TokenPrice
+### TokenPrice
 ##### Công thức sử dụng
 
-| Function Name | Function Signature | Meaning | 
-| ------------- | ---------- | ------------------ | 
-| setAaveOracle | setAaveOracle(address) | |
-| setSupportTokenOraclePrice |  setSupportTokenOraclePrice(address,bool) | |
-| getLpToken |  getLpToken(address) | |
-| setLpTokens |  setLpTokens(address,(address,address)) | |
-| getAssetPrice | getAssetPrice(address) | |
+#### initialize
+**Input:**
+| Parameter      | Meaning                        |
+|--------------|--------------------------------|
+| _usdtAddress  | Địa chỉ của token USDT        |
+| _thornAddress | Địa chỉ của token ThornUSD    |
 
-#### Treasury
-| Function Name  | Function Signature | Meaning |
-| -------------  | ------------------ | ------- |
-| deposit  | deposit(uint256,address,uint256) | |
-| manage  | manage(address,uint256) | |
-| mintRewards  | mintRewards(address,uint256) | |
-| excessReserves | excessReserves() | |
-| auditReserves  | auditReserves() | |
-| valueOf  | valueOf(address,uint256) | |
-| queue  | queue(uint8,address) | |
-| toggle  | toggle(uint8,address,address) | |
+**Các công việc thực hiện:**
+- Khởi tạo hợp đồng với hai địa chỉ token `USDT_ADDRESS` và `THORN_ADDRESS`.
+- Lưu giá trị của các địa chỉ vào biến trạng thái tương ứng.
+
+
+
+#### setAaveOracle
+**Input:**
+| Parameter   | Meaning                      |
+|------------|------------------------------|
+| _aaveOracle | Địa chỉ của Aave Oracle mới |
+
+**Các công việc thực hiện:**
+1. Kiểm tra `msg.sender` có quyền `onlyPolicy`.
+2. Kiểm tra `_aaveOracle` hợp lệ (khác `address(0)` và khác địa chỉ cũ).
+3. Cập nhật địa chỉ `AAVE_ORACLE` thành `_aaveOracle`.
+
+
+
+#### setSupportTokenOraclePrice
+**Input:**
+| Parameter | Meaning                          |
+|----------|----------------------------------|
+| _token   | Địa chỉ của token                |
+| _status  | Trạng thái hỗ trợ (true/false)   |
+
+**Các công việc thực hiện:**
+1. Kiểm tra `msg.sender` có quyền `onlyPolicy`.
+2. Kiểm tra `_token` hợp lệ (khác `address(0)` và khác trạng thái cũ).
+3. Cập nhật trạng thái hỗ trợ giá oracle của `_token` trong `supportTokensPriceOracle`.
+
+
+
+#### getLpToken
+**Input:**
+| Parameter | Meaning               |
+|----------|-----------------------|
+| _token   | Địa chỉ của token cần tra cứu |
+
+**Output:**
+- Trả về thông tin `LpInfo` của `_token` gồm `lpToken` và `otherHalf`.
+
+**Các công việc thực hiện:**
+1. Trả về thông tin của `_token` từ mapping `lpTokens`.
+
+
+#### setLpTokens
+**Input:**
+| Parameter       | Meaning                               |
+|---------------|---------------------------------------|
+| _tokenA       | Token chính trong cặp LP            |
+| _multiLpTokens | Thông tin cặp LP (`lpToken`, `otherHalf`) |
+
+**Các công việc thực hiện:**
+1. Kiểm tra `msg.sender` có quyền `onlyPolicy`.
+2. Kiểm tra `_tokenA` hợp lệ (`address(0)` không được chấp nhận).
+3. Kiểm tra `_tokenA` chưa được hỗ trợ bởi oracle.
+4. Kiểm tra `otherHalf` của `_multiLpTokens` phải là token được hỗ trợ bởi oracle.
+5. Cập nhật thông tin cặp LP vào mapping `lpTokens`.
+
+
+
+#### getAssetPrice
+**Input:**
+| Parameter | Meaning              |
+|----------|----------------------|
+| _asset   | Địa chỉ của token cần lấy giá |
+
+**Output:**
+- Trả về giá của `_asset` tính theo USDT.
+
+**Các công việc thực hiện:**
+1. Nếu `_asset` là `THORN_ADDRESS`, trả về giá trị cố định là **0.02 USDT**.
+2. Nếu `_asset` là `USDT_ADDRESS`, trả về giá trị **1 USDT**.
+3. Nếu `_asset` được hỗ trợ bởi oracle:
+   - Gọi `IAaveOracle(AAVE_ORACLE).getAssetPrice(_asset)`.
+   - Điều chỉnh giá trị theo số thập phân của USDT.
+   - Trả về giá trị tính được.
+4. Nếu `_asset` không được hỗ trợ bởi oracle:
+   - Lấy địa chỉ `lpToken` và `otherHalf` từ `lpTokens[_asset]`.
+   - Lấy số dư `_asset` trong pool LP (`balanceTokenA`).
+   - Lấy số dư `otherHalf` trong pool LP (`balanceTokenB`).
+   - Lấy giá `otherHalf` từ `AAVE_ORACLE`.
+   - Tính giá `_asset` dựa trên tỷ lệ giữa hai token trong pool:
+    ![image](https://github.com/user-attachments/assets/1ad630e6-5903-4c97-a4d4-b89e256749c7)
+
+   - Trả về giá trị tính được.
+
+
+
+#### _getAssetPriceUsdt (Internal)
+**Input:**
+| Parameter | Meaning              |
+|----------|----------------------|
+| _asset   | Địa chỉ của token cần lấy giá |
+
+**Output:**
+- Trả về giá của `_asset` tính theo USDT.
+
+**Các công việc thực hiện:**
+1. Kiểm tra nếu `_asset` có hỗ trợ oracle:
+   - Gọi `ILuminexRouter(ILLUMINEX_ROUTER).getAmountsOut()` để lấy giá trị quy đổi sang USDT.
+   - Điều chỉnh giá trị theo số thập phân của USDT.
+   - Trả về giá trị tính được.
+2. Nếu không hỗ trợ oracle, trả về giá trị `0`.
+
+
 #### PrivateSaleRoundOne
 ### Công thức sử dụng
 ### Các hàm quan trọng và ý nghĩa
