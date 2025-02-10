@@ -106,7 +106,29 @@
 #### Treasury
 #### PrivateSaleRoundOne
 ### Công thức sử dụng
-
+### Các hàm quan trọng và ý nghĩa
+| Function Name | Function Signature | Meaning | 
+| ---------- | ------ | ----------------- | 
+| initializePrivateSaleRound |  initializePrivateSaleRound(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256) |
+| setPrivateSale | setPrivateSale(uint8,uint256) | |
+| setThornPrice |  setThornPrice(uint256) | |
+| setThornAddress | setThornAddress(address) | |
+| setUsdtAddress | setUsdtAddress(address) | |
+| withdrawStuckAmount | withdrawStuckAmount(uint256,address) | |
+| toggleWhitelisted | toggleWhitelisted(address) | |
+| toggleUseWhiteList | toggleUseWhiteList() | |
+| deposit | deposit(uint256,address) | |
+| redeem | redeem(address) | |
+| percentVestedFor | percentVestedFor(address) | |
+| getTotalReceived | getTotalReceived(address) | |
+| bondPrice | bondPrice() | |
+| getPayout | getPayout(uint256) | |
+| getPayoutRate | getPayoutRate() | |
+| getThornPrice | getThornPrice() | |
+| getWithdrawableAmount | getWithdrawableAmount(address) | |
+| getClaimedAmount | getClaimedAmount(address) | |
+| getBondInfo | getBondInfo(address) | |
+| getMaxPayout | getMaxPayout(address) | |
 #### PrivateSaleRoundThree
 ##### Tương tự Round 1
 #### PrivateSaleRoundFour
