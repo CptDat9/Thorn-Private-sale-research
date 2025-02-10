@@ -11,6 +11,7 @@
 - Với: `Ci` là số token còn lại để bán ở thời điểm i
 - `Ti` thời gian còn lại ở thời điểm i
 - `Pi` giá tại thời điểm i (tính theo $)
+-  Suy ra, Giá bond `Pa` tại thời điểm a tỉ lệ thuận với tỉ số giữa thời gian còn lại `Ta` và số token còn lại tại thời điểm a  là `Ca`.
 #### ThornERC20
 - Contract token ERc20 của Thorn.
 #### TokenPrice
