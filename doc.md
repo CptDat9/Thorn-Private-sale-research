@@ -11,7 +11,7 @@
 - Với: `Ci` là số token còn lại để bán ở thời điểm i
 - `Ti` thời gian còn lại ở thời điểm i
 - `Pi` giá tại thời điểm i (tính theo $)
--  Suy ra, Giá bond `Pa` tại thời điểm a tỉ lệ thuận với tỉ số giữa thời gian còn lại `Ta` và số token còn lại tại thời điểm a  là `Ca`.
+-  Suy ra, Giá bond `Pa` tại thời điểm a tỉ lệ thuận với tỉ số giữa thời gian còn lại `Ta` và số token còn lại tại thời điểm a  là `Ca`. Do đó, khi số token còn lại giảm hoặc thời gian còn lại ít đi, giá trái phiếu có xu hướng tăng lên. Điều này khuyến khích người mua tham gia sớm để có mức giá tốt hơn.
 #### ThornERC20
 - Contract token ERC20 của Thorn.
 #### TokenPrice
