@@ -12,14 +12,21 @@
 - `Ti` thời gian còn lại ở thời điểm i
 - `Pi` giá tại thời điểm i (tính theo $)
 #### ThornERC20
+- Contract token ERc20 của Thorn.
 #### TokenPrice
+- Quản lí giá token theo thời gian hoặc sự kiện.
 #### Treasury
+- Nắm giữ và quản lí tài sản của dự án.
 #### PrivateSaleRoundOne
+- Quản lí vòng Presale
 #### PrivateSaleRoundThree
+- Quản lí vòng Presale
 #### PrivateSaleRoundFour
+- Quản lí vòng Presale
 #### Policy
+- Quản trị dự án (kiểm soát người tài khoản nắm quyền quản lí chính sách dự án)
 #### PolicyUpgradeable
-
+- Proxy của Policy.
 ## Thiết kế contract
 ### Các thuộc tính quan trọng
 #### BondDepository
