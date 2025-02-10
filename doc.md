@@ -100,6 +100,12 @@
 | getThornPrice  | getThornPrice() |  |
 | getWithdrawableAmount  | getWithdrawableAmount(address) |  |
 #### ThornERC20
+| Function Name |  Function Signature | Meaning |
+| ------------- |  ------------------ | ------------------ |
+| mint | mint(address,uint256) | |
+| burn | burn(uint256) | |
+| burnFrom | burnFrom(address,uint256) | |
+| _burnFrom | _burnFrom(address,uint256) | |
 #### TokenPrice
 ##### Công thức sử dụng
 
