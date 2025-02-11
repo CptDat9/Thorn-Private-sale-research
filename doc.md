@@ -697,34 +697,423 @@
   ```
 
 
-### PrivateSaleRoundOne
-### Công thức sử dụng
-### Các hàm quan trọng và ý nghĩa
-| Function Name | Function Signature | Meaning | 
-| ---------- | ------ | ----------------- | 
-| initializePrivateSaleRound |  initializePrivateSaleRound(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256) |
-| setPrivateSale | setPrivateSale(uint8,uint256) | |
-| setThornPrice |  setThornPrice(uint256) | |
-| setThornAddress | setThornAddress(address) | |
-| setUsdtAddress | setUsdtAddress(address) | |
-| withdrawStuckAmount | withdrawStuckAmount(uint256,address) | |
-| toggleWhitelisted | toggleWhitelisted(address) | |
-| toggleUseWhiteList | toggleUseWhiteList() | |
-| deposit | deposit(uint256,address) | |
-| redeem | redeem(address) | |
-| percentVestedFor | percentVestedFor(address) | |
-| getTotalReceived | getTotalReceived(address) | |
-| bondPrice | bondPrice() | |
-| getPayout | getPayout(uint256) | |
-| getPayoutRate | getPayoutRate() | |
-| getThornPrice | getThornPrice() | |
-| getWithdrawableAmount | getWithdrawableAmount(address) | |
-| getClaimedAmount | getClaimedAmount(address) | |
-| getBondInfo | getBondInfo(address) | |
-| getMaxPayout | getMaxPayout(address) | |
-#### PrivateSaleRoundThree
-##### Tương tự Round 1
-#### PrivateSaleRoundFour
-##### Tương tự Round 1
-#### Policy
+## PrivateSaleRoundOne
+## Các hàm quan trọng và ý nghĩa
+## 1.Quản lý vòng Private Sale
+### 1.1 `initializePrivateSaleRound`
+**Mô tả:**  
+Khởi tạo vòng private sale với các thông số cơ bản.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_startTime` | Thời gian bắt đầu vòng sale |
+| `_endTime` | Thời gian kết thúc vòng sale |
+| `_vestingCliff` | Thời gian cliff trước khi có thể claim token |
+| `_vestingDuration` | Tổng thời gian vesting |
+| `_minPurchase` | Số lượng tối thiểu được phép mua |
+| `_maxPurchase` | Số lượng tối đa được phép mua |
+| `_totalAllocation` | Tổng số token THORN phân bổ cho vòng sale |
+| `_payoutRate` | Tỷ lệ quy đổi từ USDT sang THORN |
+| `_usdtAddress` | Địa chỉ token USDT |
+| `_thornAddress` | Địa chỉ token THORN |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Lưu trữ thông tin của vòng private sale.  
+2. Kiểm tra các thông số hợp lệ.  
+3. Gửi sự kiện `PrivateSaleInitialized`.  
+
+
+### 1.2 `setPrivateSale`
+**Mô tả:**  
+Cập nhật trạng thái vòng private sale.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_status` | Trạng thái mới của vòng sale |
+| `_maxPurchase` | Giới hạn mua tối đa mới |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật trạng thái của vòng private sale.  
+2. Cập nhật giới hạn mua tối đa.  
+3. Gửi sự kiện `PrivateSaleStatusUpdated`.  
+
+
+### 1.3 `setThornPrice`
+**Mô tả:**  
+Thiết lập giá của token THORN trong vòng Private Sale.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_price` | Giá của THORN tính bằng USDT |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật giá THORN.  
+2. Gửi sự kiện `ThornPriceUpdated`.  
+
+
+### 1.4 `setThornAddress`
+**Mô tả:**  
+Cập nhật địa chỉ contract của token THORN.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_thornAddress` | Địa chỉ mới của token THORN |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật địa chỉ của token THORN.  
+2. Gửi sự kiện `ThornAddressUpdated`.  
+
+
+
+### 1.5 `setUsdtAddress`
+**Mô tả:**  
+Cập nhật địa chỉ contract của token USDT.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_usdtAddress` | Địa chỉ mới của token USDT |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật địa chỉ của token USDT.  
+2. Gửi sự kiện `UsdtAddressUpdated`.  
+
+
+
+### 1.6 `withdrawStuckAmount`
+**Mô tả:**  
+Admin rút số lượng token bị kẹt khỏi hợp đồng.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_amount` | Số lượng token muốn rút |
+| `_tokenAddress` | Địa chỉ của token muốn rút |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Kiểm tra quyền admin.  
+2. Rút số token bị kẹt trong hợp đồng.  
+3. Gửi sự kiện `StuckAmountWithdrawn`.  
+
+
+
+### 1.7 `toggleWhitelisted`
+**Mô tả:**  
+Thêm hoặc loại bỏ một địa chỉ khỏi whitelist.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ cần thêm hoặc loại bỏ khỏi whitelist |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật trạng thái whitelist của `_user`.  
+2. Gửi sự kiện `WhitelistUpdated`.  
+
+
+
+### 1.8 `toggleUseWhiteList`
+**Mô tả:**  
+Bật hoặc tắt chế độ whitelist cho vòng private sale.
+
+**Input:**  
+- Không có.
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Cập nhật trạng thái whitelist toàn cầu.  
+2. Gửi sự kiện `WhitelistToggled`.  
+
+
+
+### 1.9 `deposit`
+**Mô tả:**  
+Mua token Thorn trong vòng private sale.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_amount` | Số USDT dùng để mua token |
+| `_depositor` | Địa chỉ người mua |
+
+**Output:**  
+- Số lượng token Thorn nhận được.
+
+**Các công việc thực hiện:**  
+1. Kiểm tra thời gian mua có hợp lệ không.  
+2. Kiểm tra whitelist nếu được bật.  
+3. Kiểm tra `_amount` có vượt quá giới hạn không.  
+4. Chuyển USDT từ `_depositor` vào hợp đồng.  
+5. Cập nhật trạng thái giao dịch trong `bondInfo`.  
+6. Gửi sự kiện `PrivateSaleBuy`.  
+
+
+
+### 1.10 `redeem`
+**Mô tả:**  
+Người dùng rút số lượng token đã mua theo lịch vesting.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_recipient` | Địa chỉ nhận token |
+
+**Output:**  
+- Số lượng token đã nhận.
+
+**Các công việc thực hiện:**  
+1. Tính toán số lượng token có thể rút theo vesting.  
+2. Chuyển token THORN vào `_recipient`.  
+3. Cập nhật trạng thái của bond.  
+4. Gửi sự kiện `PrivateSaleRedeem`.
+## 2. Truy vấn thông tin người dùng  
+### 2.1 `percentVestedFor`
+**Mô tả:**  
+Lấy phần trăm token đã được mở khóa cho một địa chỉ cụ thể.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ cần kiểm tra |
+
+**Output:**  
+- Phần trăm token đã được mở khóa.
+
+**Công thức:**  
+Nếu `block.timestamp < vestingCliff`, phần trăm mở khóa = 0%.  
+Ngược lại, phần trăm mở khóa được tính theo công thức:  
+\[
+\text{percentVested} = \frac{\min(\text{block.timestamp} - \text{vestingStart}, \text{vestingDuration})}{\text{vestingDuration}} \times 100\%
+\]
+
+**Các công việc thực hiện:**  
+1. Kiểm tra xem thời gian cliff đã kết thúc chưa.  
+2. Nếu vesting đã bắt đầu, tính phần trăm vesting theo công thức.  
+3. Trả về giá trị phần trăm đã mở khóa.  
+
+
+
+### 2.2 `getTotalReceived`
+**Mô tả:**  
+Trả về tổng số USDT mà người dùng đã gửi vào hợp đồng.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ người dùng |
+
+**Output:**  
+- Tổng số USDT đã gửi.
+
+**Các công việc thực hiện:**  
+1. Truy vấn `bondInfo[_user]` để lấy tổng số tiền đã gửi.  
+2. Trả về tổng số tiền đó.  
+
+
+
+### 2.3 `getWithdrawableAmount`
+**Mô tả:**  
+Xem số lượng token mà người dùng có thể rút tại thời điểm hiện tại.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ người dùng |
+
+**Output:**  
+- Số lượng token có thể rút.
+
+**Công thức:**  
+\[
+\text{withdrawableAmount} = \text{totalPurchased} \times \frac{\text{percentVestedFor}(\_user)}{100} - \text{claimedAmount}
+\]
+
+**Các công việc thực hiện:**  
+1. Tính toán phần trăm vesting hiện tại.  
+2. Tính số token có thể rút theo công thức.  
+3. Trả về số lượng có thể rút.  
+
+
+
+### 2.4 `getClaimedAmount`
+**Mô tả:**  
+Xem số lượng token mà người dùng đã rút.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ người dùng |
+
+**Output:**  
+- Số lượng token đã rút.
+
+**Các công việc thực hiện:**  
+1. Truy vấn `bondInfo[_user]`.  
+2. Trả về tổng số lượng token đã rút.  
+
+## 3. Thông tin về bond
+
+### 3.1 `bondPrice`
+**Mô tả:**  
+Trả về giá bond tại thời điểm hiện tại.
+
+**Input:**  
+- Không có.
+
+**Output:**  
+- Giá bond hiện tại.
+
+**Các công việc thực hiện:**  
+1. Trả về giá bond dựa trên cơ chế định giá của hợp đồng.  
+
+
+
+### 3.2 `getPayout`
+**Mô tả:**  
+Tính toán số token mà người dùng nhận được khi mua bond.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_amount` | Số lượng USDT sử dụng để mua bond |
+
+**Output:**  
+- Số lượng token THORN nhận được.
+
+**Công thức:**  
+\[
+\text{payout} = \_amount \times \text{payoutRate}
+\]
+
+**Các công việc thực hiện:**  
+1. Lấy tỷ lệ quy đổi.  
+2. Tính số lượng THORN nhận được theo công thức.  
+3. Trả về giá trị đó.  
+
+
+
+### 3.3 `getPayoutRate`
+**Mô tả:**  
+Trả về tỷ lệ quy đổi giữa USDT và THORN trong Private Sale.
+
+**Input:**  
+- Không có.
+
+**Output:**  
+- Tỷ lệ quy đổi.
+
+**Các công việc thực hiện:**  
+1. Truy xuất tỷ lệ quy đổi từ cấu hình hợp đồng.  
+2. Trả về giá trị đó.  
+
+
+
+### 3.4 `getThornPrice`
+**Mô tả:**  
+Trả về giá token THORN tại thời điểm hiện tại.
+
+**Input:**  
+- Không có.
+
+**Output:**  
+- Giá của THORN.
+
+**Các công việc thực hiện:**  
+1. Lấy giá THORN từ biến lưu trữ trong hợp đồng.  
+2. Trả về giá trị đó.  
+
+
+
+### 3.5 `getBondInfo`
+**Mô tả:**  
+Trả về thông tin về bond của một địa chỉ cụ thể.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ người dùng |
+
+**Output:**  
+- Thông tin về bond bao gồm tổng số USDT đã gửi, số lượng THORN đã mua, số THORN đã rút, và số THORN còn có thể rút.
+
+**Các công việc thực hiện:**  
+1. Truy vấn `bondInfo[_user]`.  
+2. Trả về toàn bộ thông tin bond của `_user`.  
+
+
+
+### 3.6 `getMaxPayout`
+**Mô tả:**  
+Trả về số lượng tối đa mà một người có thể nhận được từ Private Sale.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_user` | Địa chỉ người dùng |
+
+**Output:**  
+- Số lượng tối đa THORN có thể nhận.
+
+**Công thức:**  
+\[
+\text{maxPayout} = \text{totalAllocation} \times \text{maxPurchase} \div \sum \text{all participants}
+\]
+
+**Các công việc thực hiện:**  
+1. Tính toán giới hạn mua dựa trên tổng số THORN phân bổ.  
+2. Trả về số lượng tối đa có thể nhận.  
+
+## 4. Quản lý hợp đồng
+
+
+### 4.1 `withdrawStuckAmount`
+**Mô tả:**  
+Cho phép admin rút số lượng token bị kẹt khỏi hợp đồng.
+
+**Input:**
+| Parameter | Meaning |
+|-----------|---------|
+| `_amount` | Số lượng token muốn rút |
+| `_tokenAddress` | Địa chỉ của token muốn rút |
+
+**Output:**  
+- Không có.
+
+**Các công việc thực hiện:**  
+1. Kiểm tra quyền admin.  
+2. Chuyển số lượng token bị kẹt về ví admin.  
+3. Gửi sự kiện `StuckAmountWithdrawn`.  
+
+### PrivateSaleRoundThree
+#### Tương tự Round 1
+### PrivateSaleRoundFour
+#### Tương tự Round 1
+### Policy
 #### PolicyUpgradeable
