@@ -907,12 +907,9 @@ Lấy phần trăm token đã được mở khóa cho một địa chỉ cụ th
 - Phần trăm token đã được mở khóa.
 
 **Công thức:**  
-Nếu `block.timestamp < vestingCliff`, phần trăm mở khóa = 0%.  
-Ngược lại, phần trăm mở khóa được tính theo công thức:  
-\[
-\text{percentVested} = \frac{\min(\text{block.timestamp} - \text{vestingStart}, \text{vestingDuration})}{\text{vestingDuration}} \times 100\%
-\]
-
+- Nếu `block.timestamp < vestingCliff`, phần trăm mở khóa = 0%.  
+- Ngược lại, phần trăm mở khóa được tính theo công thức:  
+![image](https://github.com/user-attachments/assets/165e6ccf-98f5-4242-b82c-821577a7c7d6)
 **Các công việc thực hiện:**  
 1. Kiểm tra xem thời gian cliff đã kết thúc chưa.  
 2. Nếu vesting đã bắt đầu, tính phần trăm vesting theo công thức.  
@@ -951,9 +948,8 @@ Xem số lượng token mà người dùng có thể rút tại thời điểm h
 - Số lượng token có thể rút.
 
 **Công thức:**  
-\[
-\text{withdrawableAmount} = \text{totalPurchased} \times \frac{\text{percentVestedFor}(\_user)}{100} - \text{claimedAmount}
-\]
+
+![image](https://github.com/user-attachments/assets/67743b3b-97c9-4af5-8a37-095a322f92b5)
 
 **Các công việc thực hiện:**  
 1. Tính toán phần trăm vesting hiện tại.  
@@ -1008,9 +1004,8 @@ Tính toán số token mà người dùng nhận được khi mua bond.
 - Số lượng token THORN nhận được.
 
 **Công thức:**  
-\[
-\text{payout} = \_amount \times \text{payoutRate}
-\]
+
+![image](https://github.com/user-attachments/assets/9ee557f9-dff4-4c12-8921-2eb8238b3015)
 
 **Các công việc thực hiện:**  
 1. Lấy tỷ lệ quy đổi.  
@@ -1082,9 +1077,8 @@ Trả về số lượng tối đa mà một người có thể nhận được 
 - Số lượng tối đa THORN có thể nhận.
 
 **Công thức:**  
-\[
-\text{maxPayout} = \text{totalAllocation} \times \text{maxPurchase} \div \sum \text{all participants}
-\]
+![image](https://github.com/user-attachments/assets/8db7607f-a22d-4e78-b70e-8a7cda3efe16)
+
 
 **Các công việc thực hiện:**  
 1. Tính toán giới hạn mua dựa trên tổng số THORN phân bổ.  
