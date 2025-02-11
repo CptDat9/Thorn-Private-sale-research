@@ -2,6 +2,7 @@
 ## Tìm hiểu về private sale
  - Private sale là giai đoạn huy động vốn đầu tiên của một dự án crypto, trong đó token được bán riêng cho các nhà đầu tư giàu có, quỹ đầu tư mạo hiểm, tổ chức tài chính,...
  - Đây là giai đoạn kín, với giá token ưu đãi hơn so với vòng công khai, nhưng đi kèm với điều kiện như thời gian khóa token (lock-up period - khoảng thời gian không thể giao dịch hay chuyển nhượng) và lịch phát hành (vesting schedule)
+ - Vesting là quá trình khóa token trong một khoảng thời gian nhất định và chỉ cho phép rút theo một lịch trình nhất định. Điều này giúp đảm bảo rằng người nắm giữ token không bán ngay lập tức, tránh tác động tiêu cực đến thị trường.
  - Vesting có 2 kiểu phổ biến: Cliff vesting và Linear vesting (Thorn Presale theo kiểu Cliff vesting), Cliff Vesting có 1 khoảng thời gian đóng sau khi phát hành token và sau đó sẽ phát hành token theo lịch trình đã định.
 ## Cơ chế hoạt động
 ### Mua Token trong Presale
@@ -19,18 +20,67 @@
  còn lại sẽ được khóa.
  - Điều kiện Thành công:  Người dùng hoàn tất giao dịch và sở hữu số token THORN đã mua
  
- - `Các trường hợp không thành công`:
-     1.  Người Dùng Không Thuộc Danh Sách Trắng (Whitelist) thì Hệ thống kiểm tra danh sách trắng và thông báo: “User is not in whitelist to buy bond.”
-     2. Đợt Mua Đã Hết Hạn Hoặc Chưa Bắt Đầu:
+ #### Các trường hợp không thành công:
+    
+   1.  Người Dùng Không Thuộc Danh Sách Trắng (Whitelist) thì Hệ thống kiểm tra danh sách trắng và thông báo: “User is not in whitelist to buy bond.”
+   2. Đợt Mua Đã Hết Hạn Hoặc Chưa Bắt Đầu:
         - Hệ thống kiểm tra thời gian bán token và thông báo:
  + “It's not time to buy token in this terms yet!” nếu thời gian hiện tại trước thời gian cho phép.
  + “terms private sale is expired!” nếu thời gian hiện tại sau thời gian cho phép.
      3. Vượt Giới Hạn Mua Token: “THORN too max” nếu số token muốn mua vượt quá giới hạn cho phép cho
  một người dùng hoặc  “Max Capacity has reached” nếu tổng nợ đã đạt đến giới hạn.
      4. Địa chỉ ví không hợp lệ
-   ### Rút token sau khi mua
+   ### Rút token sau khi mua (Redeem Token)
     - Cho phép người dùng rút token đã mua trong đợt bán riêng theo thời gian cliff và vesting quy định
       
+1. Người dùng chọn thực hiện hành động **"Redeem Token"** từ giao diện ứng dụng.  
+2. Hệ thống nhận địa chỉ ví của người dùng `_recipient` và tiến hành kiểm tra:  
+   - Địa chỉ `_recipient` không được là địa chỉ rỗng (`0x0`).  
+   - Thời gian hiện tại (`block.timestamp`) phải đạt hoặc vượt qua thời điểm **cliffingTimeStart**.  
+3. Hệ thống truy xuất dữ liệu từ **bondInfo** của người dùng:  
+   - Kiểm tra xem người dùng có bất kỳ token nào đã được claim sẵn không (dựa vào `amountClaim`).  
+   - Nếu có, hệ thống chuyển số lượng này vào `amountToClaim` và đặt lại `amountClaim` về 0.  
+4. Hệ thống tính toán tỷ lệ vesting (`percentVested`) dựa trên thời gian đã trôi qua kể từ lần giao dịch cuối cùng so với tổng thời gian vesting.  
+5. Nếu người dùng đã đạt **100% vesting** (`percentVested >= 10000`):  
+   - Hệ thống xóa toàn bộ dữ liệu liên quan đến người dùng trong **bondInfo**.  
+   - Gọi hàm `stakeOrSend` với toàn bộ số lượng token từ **payout** và **amountToClaim** của người dùng.  
+   - Người dùng nhận được toàn bộ token đã mua.  
+   - Sự kiện **PrivateSaleRedeem** được phát ra.  
+6. Nếu người dùng **chưa đạt 100% vesting**:  
+   - Hệ thống xác định lượng token có thể rút dựa trên tỷ lệ đã vest (`percentVested`).  
+   - Cập nhật trạng thái vesting, điều chỉnh số dư payout và **lastBlock**.  
+   - Cập nhật dữ liệu trong **bondInfo** của người dùng.  
+   - Gọi `stakeOrSend` với phần token đã vest và `amountToClaim`.  
+   - Người dùng nhận được số token đã vest tính đến thời điểm hiện tại.  
+   - Sự kiện **PrivateSaleRedeem** được phát ra.  
+7. Hệ thống xác nhận và hoàn tất quy trình rút token.
+#### Các trường hợp không thành công 
+##### **Trường Hợp 1: Địa Chỉ Ví Không Hợp Lệ**  
+- **Điều kiện xảy ra:**  
+  - Ở bước 2, nếu địa chỉ `_recipient` là `0x0` (địa chỉ rỗng).  
+- **Hệ thống xử lý:**  
+  - Từ chối giao dịch.  
+  - Hiển thị thông báo lỗi:  
+    >  *"Địa chỉ ví không hợp lệ."*  
+
+
+
+##### **Trường Hợp 2: Chưa Đến Thời Gian Vesting**  
+- **Điều kiện xảy ra:**  
+  - Ở bước 2, nếu thời gian hiện tại (block.timestamp) chưa đạt `cliffingTimeStart`.  
+- **Hệ thống xử lý:**  
+  - Ngăn người dùng thực hiện giao dịch.  
+  - Hiển thị thông báo lỗi:  
+    >  *"Chưa đến thời gian vesting hoặc rút token."*  
+
+
+
+##### **Trường Hợp 3: Cập Nhật Sai Thời Gian Bắt Đầu Vesting**  
+- **Điều kiện xảy ra:**  
+  - Ở bước 6, nếu `lastBlock` của người dùng nhỏ hơn `vestingTimeStart`.  
+- **Hệ thống xử lý:**  
+  - Điều chỉnh `lastBlock` bằng `vestingTimeStart` để đảm bảo vesting bắt đầu chính xác từ thời điểm yêu cầu.  
+
 ### Use-case các contract
 #### BondDepository:
 - Quản lí cơ chế hoạt động trái phiếu
