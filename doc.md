@@ -4,6 +4,20 @@
  - Đây là giai đoạn kín, với giá token ưu đãi hơn so với vòng công khai, nhưng đi kèm với điều kiện như thời gian khóa token (lock-up period - khoảng thời gian không thể giao dịch hay chuyển nhượng) và lịch phát hành (vesting schedule)
  - Vesting có 2 kiểu phổ biến: Cliff vesting và Linear vesting (Thorn Presale theo kiểu Cliff vesting), Cliff Vesting có 1 khoảng thời gian đóng sau khi phát hành token và sau đó sẽ phát hành token theo lịch trình đã định.
 ## Cơ chế hoạt động
+### Mua Token trong Presale
+- Người dùng thực hiện giao dịch để mua token THORN trong khoảng thời gian cho phép, thỏa mãn các điều kiện mua. (thuộc whitelist, danh sách khách hàng dặt trước của launchpad,...)
+ Các Bước Chính:
+ 1. Người dùng đăng nhập vào giao diện bán token của hệ thống.
+ 2. Người dùng chọn số lượng tài sản muốn gửi để mua token THORN.
+ 3. Người dùng xác nhận việc giao dịch và gửi tài sản từ ví của mình.
+ 4. Hệ thống hiển thị số lượng token THORN mà người dùng sẽ nhận được sau giao dịch.
+ 5. Người dùng xác nhận giao dịch và thấy thông báo thành công cùng thông tin chi tiết:
+ - Số lượng tài sản gửi vào.
+ - Số lượng token THORN đã mua.
+ - Thông tin vesting (lịch trả token).
+ 6. Giao diện cập nhật số token THORN có thể claim ngay tại thời điểm TGE (Token Generation Event) và số
+ còn lại sẽ được khóa.
+ - Điều kiện Thành công:  Người dùng hoàn tất giao dịch và sở hữu số token THORN đã mua
 #### BondDepository:
 - Quản lí cơ chế hoạt động trái phiếu
 - Công thức giá bond:
