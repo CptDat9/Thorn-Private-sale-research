@@ -18,6 +18,20 @@
  6. Giao diện cập nhật số token THORN có thể claim ngay tại thời điểm TGE (Token Generation Event) và số
  còn lại sẽ được khóa.
  - Điều kiện Thành công:  Người dùng hoàn tất giao dịch và sở hữu số token THORN đã mua
+ 
+ - `Các trường hợp không thành công`:
+     1.  Người Dùng Không Thuộc Danh Sách Trắng (Whitelist) thì Hệ thống kiểm tra danh sách trắng và thông báo: “User is not in whitelist to buy bond.”
+     2. Đợt Mua Đã Hết Hạn Hoặc Chưa Bắt Đầu:
+        - Hệ thống kiểm tra thời gian bán token và thông báo:
+ + “It's not time to buy token in this terms yet!” nếu thời gian hiện tại trước thời gian cho phép.
+ + “terms private sale is expired!” nếu thời gian hiện tại sau thời gian cho phép.
+     3. Vượt Giới Hạn Mua Token: “THORN too max” nếu số token muốn mua vượt quá giới hạn cho phép cho
+ một người dùng hoặc  “Max Capacity has reached” nếu tổng nợ đã đạt đến giới hạn.
+     4. Địa chỉ ví không hợp lệ
+   ### Rút token sau khi mua
+    - Cho phép người dùng rút token đã mua trong đợt bán riêng theo thời gian cliff và vesting quy định
+      
+### Use-case các contract
 #### BondDepository:
 - Quản lí cơ chế hoạt động trái phiếu
 - Công thức giá bond:
