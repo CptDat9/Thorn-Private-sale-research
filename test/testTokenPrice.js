@@ -25,12 +25,12 @@ describe("TokenPrice Contract Tests", function () {
         console.log("TokenPrice Contract deploy:", tokenPrice.target);
     });
     
-    it("Should correctly set initial addresses", async function () {
+    it("Khoi tao thanh cong", async function () {
         expect(await tokenPrice.USDT_ADDRESS()).to.equal(usdtToken.target);
         expect(await tokenPrice.THORN_ADDRESS()).to.equal(thornToken.target);
     });
     
-    it("Should allow policy admin to set Aave Oracle", async function () {
+    it(" allow policy admin to set Aave Oracle", async function () {
         const currentOracle = await tokenPrice.AAVE_ORACLE();
         console.log("Current Aave Oracle:", currentOracle);
         const newAaveOracle = ethers.Wallet.createRandom().address;
@@ -41,9 +41,10 @@ describe("TokenPrice Contract Tests", function () {
         expect(updatedOracle).to.equal(newAaveOracle);
     });
     
-    it("Should allow policy admin to set support token oracle price", async function () {
+    it(" allow policy admin to set support token oracle price", async function () {
         const token = ethers.Wallet.createRandom().address;
         await tokenPrice.connect(owner).setSupportTokenOraclePrice(token, true);
+        console.log("supportTokensPriceOracle:", await tokenPrice.supportTokensPriceOracle(token));
         expect(await tokenPrice.supportTokensPriceOracle(token)).to.be.true;
     });
     
@@ -51,19 +52,20 @@ describe("TokenPrice Contract Tests", function () {
         const lpToken = ethers.Wallet.createRandom().address;
         const otherHalf = ethers.Wallet.createRandom().address;
     
-        // ✅ Thêm otherHalf vào danh sách hỗ trợ trước khi set LP token
+        //Thêm otherHalf vào danh sách hỗ trợ trước khi set LP token
         await tokenPrice.connect(owner).setSupportTokenOraclePrice(otherHalf, true);
     
         await tokenPrice.connect(owner).setLpTokens(thornToken.target, { lpToken, otherHalf });
         const lpInfo = await tokenPrice.getLpToken(thornToken.target);
-    
+        console.log("LP info: ",  lpInfo.lpToken);
+        console.log("Lp info otherHalf: ", lpInfo.otherHalf);
         expect(lpInfo.lpToken).to.equal(lpToken);
         expect(lpInfo.otherHalf).to.equal(otherHalf);
     });
     
     it("Should return correct asset price", async function () {
         const price = await tokenPrice.getAssetPrice(thornToken.target);
-        console.log("Token price Thorn", price);
+        console.log("Token price Thorn:", price);
         expect(price).to.be.gt(0);
     });
 });
