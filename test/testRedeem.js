@@ -23,26 +23,26 @@ describe("Private Sale Redeem Test", function () {
 -        await thornToken.connect(depositor).approve(privateSale.target, ethers.parseEther("1000"));
 
         const now = Math.floor(Date.now() / 1000);
-        const vestingStart = now + 60; // Vesting bắt đầu sau 1 phút
-        const vestingTerm = 60 * 60 * 24 * 30; // 30 ngày
+        const vestingStart = now + 60; 
+        const vestingTerm = 60 * 60 * 24 * 30; 
 
         await privateSale.connect(owner).initializePrivateSaleRound(
-            now,                 // Buying Time Start
-            60 * 60 * 24 * 7,    // Buying Time (7 ngày)
-            vestingStart,        // Vesting Time Start
-            vestingTerm,         // Vesting Term (30 ngày)
-            vestingStart,        // Cliffing Time Start
-            60 * 60 * 24 * 7,    // Cliffing Term (7 ngày)
-            30000,               // Discount Ratio
-            BigNumber(10_000_000).multipliedBy(BigNumber(10).pow(18)).toFixed(0), // Max Debt
-            BigNumber(50000).multipliedBy(BigNumber(10).pow(6)).toFixed(0), // Max Payout
-            10000                // TGE (10%)
+            now,                
+            60 * 60 * 24 * 7,    
+            vestingStart,        
+            vestingTerm,        
+            vestingStart,       
+            60 * 60 * 24 * 7,    
+            30000,               
+            BigNumber(10_000_000).multipliedBy(BigNumber(10).pow(18)).toFixed(0),
+            BigNumber(50000).multipliedBy(BigNumber(10).pow(6)).toFixed(0), 
+            10000                
         );
 
         console.log("✅ Private Sale Round  1 Initialized!");
         
-        const depositAmount = ethers.parseUnits("10", 6); // 10 USDT
-        const thornPrice = ethers.parseUnits("0.05", 2); // 0.05 với decimal = 2
+        const depositAmount = ethers.parseUnits("10", 6); 
+        const thornPrice = ethers.parseUnits("0.05", 2); 
         const setThornPriceTx = await privateSale.connect(owner).setThornPrice(thornPrice);
         await setThornPriceTx.wait();
         await privateSale.connect(depositor).deposit(depositAmount, depositor.address);
@@ -89,7 +89,7 @@ describe("Private Sale Redeem Test", function () {
         console.log("ThornToken deployed tại:", thornToken.target);
         await privateSale.setThornAddress(thornToken.target);
         console.log("Set dia chi thorn token thannh cong.");
-        const mintTx = await thornToken.mint(privateSale.target, "1000000000000000000000000"); // 1 triệu Thorn
+        const mintTx = await thornToken.mint(privateSale.target, "1000000000000000000000000"); 
         await mintTx.wait();
         console.log("Mint rat rat nhieu Thorn token cho contract thành công!");
         const contractBalance = await thornToken.balanceOf(privateSale.target);
