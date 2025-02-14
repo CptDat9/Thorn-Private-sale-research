@@ -98,6 +98,60 @@ async function testDeposit() {
         expect(bondInfo.pricePaid).to.equal(depositAmount);
 
         console.log("bondInfo cập nhật chính xác!");
+        // console.log("Test update para va redeem.");
+        // const currentTime = Math.floor(Date.now() / 1000);
+        
+        // const buyingTime = 2592000; 
+        // const vestingTerm = 15552000; 
+        // const cliffingTerm = 5184000; 
+        // const maxDebt = BigNumber(10_000_000).multipliedBy(BigNumber(10).pow(18)).toFixed(0);
+        // const maxPayout = BigNumber(50000).multipliedBy(BigNumber(10).pow(6)).toFixed(0);
+        // const discountRatio1 = 30000; 
+        // const tge = 10000; 
+    
+        // await privateSaleRoundOne.setPrivateSale(0, currentTime - buyingTime - 10); // BUYING_TIME_START
+        // await privateSaleRoundOne.setPrivateSale(1, buyingTime); // BUYING_TIME
+        // await privateSaleRoundOne.setPrivateSale(2, currentTime - vestingTerm - 10); // VESTING_TIME_START
+        // await privateSaleRoundOne.setPrivateSale(3, vestingTerm); // VESTING_TERM
+        // await privateSaleRoundOne.setPrivateSale(4, currentTime - cliffingTerm - 10); // CLIFFING_TIME_START
+        // await privateSaleRoundOne.setPrivateSale(5, cliffingTerm); // CLIFFING_TERM
+        // await privateSaleRoundOne.setPrivateSale(6, discountRatio1); // DISCOUNTRATIO
+        // await privateSaleRoundOne.setPrivateSale(7, maxDebt); // MAX_DEBT
+        // await privateSaleRoundOne.setPrivateSale(8, maxPayout); // MAX_PAYOUT
+        // await privateSaleRoundOne.setPrivateSale(9, tge); // TGE
+    
+        // console.log("parameters update");
+        // const discountRatioAfter = (await privateSaleRoundOne.terms()).discountRatio;
+        // console.log("parameters update discountRatio:", discountRatioAfter);
+        // await network.provider.send("evm_increaseTime", [vestingTerm + cliffingTerm + 1]);
+        // await network.provider.send("evm_mine");
+    
+        // console.log(" Time increased");
+        // const ThornERC20 = await ethers.getContractFactory("MockToken");
+        // const thornToken = await ThornERC20.deploy();
+        // await thornToken.waitForDeployment();
+        // console.log("ThornToken deployed tại:", thornToken.target);
+        // await privateSaleRoundOne.setThornAddress(thornToken.target);
+        // console.log("Set dia chi thorn token thannh cong.");
+        // const mintTx = await thornToken.mint(privateSaleRoundOne.target, "1000000000000000000000000"); // 1 triệu Thorn
+        // await mintTx.wait();
+        // console.log("Mint rat rat nhieu Thorn token cho contract thành công!");
+        // const contractBalance = await thornToken.balanceOf(privateSaleRoundOne.target);
+        // console.log("Contract balance:", contractBalance.toString());
+
+        // const depositorBalance = await thornToken.balanceOf(depositor.address);
+        // console.log("Depositor balance:", depositorBalance.toString());
+        // const mintTx2 = await thornToken.mint(depositor.address, "1000000000000"); 
+        // await mintTx2.wait();
+        // console.log("Depositor balance:", depositorBalance.toString());
+
+        // const tx = await thornToken.transfer(depositor.address, ethers.parseEther("10000"));
+        // await tx.wait();
+        // console.log("Chuyển 100000 Thorn thành công");
+        // const redeemTx = await privateSaleRoundOne.connect(depositor).redeem(depositor.address);
+        // await redeemTx.wait();
+    
+        // console.log(" Redeem thanh cong");
     });
 }
 testDeposit().catch(console.error); 
